@@ -45,19 +45,6 @@
             <scope>annotationProcessor</scope>
         </dependency>
 
-        <!-- This is for loading everything AWS has to offer in JAVA-VERSE, not required, instead pick separate modules only -->
-        <!--<dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>aws-sdk-java</artifactId>
-            <version>${aws.sdk.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>sts</artifactId>
@@ -81,6 +68,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- This is for loading everything AWS has to offer in JAVA-VERSE, not required, instead pick separate modules only -->
+        <!--<dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+            <version>${aws.sdk.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
