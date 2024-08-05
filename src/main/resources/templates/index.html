@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" type="image/png" th:href="@{/images/favicon_0101.png}">
+    <title>01101011</title>
+    <!--<link rel="stylesheet" href="./css/materialize.css">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.0.3-alpha/dist/css/materialize.min.css">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!--<nav style="background-color: #3573b0">-->
+<header>
+    <div class="container">
+        <nav style="background-color: #fff">
+            <div class="nav-wrapper">
+                <a href="#" style="height: 100%">
+                    <!--<img src="./images/white_logo_color_background.jpg" alt="01101011" style="max-height: 64px!important; padding: 15px 0!important;">-->
+                    <!--<img src="./images/01101011.png" alt="01101011" style="height: 67px !important; margin-left: -1px; margin-top: -1px;">-->
+                    <img th:src="@{/images/01101011.png}" alt="01101011" style="height: 40px !important; margin-left: -1px; margin-top: 11px;">
+                </a>
+            </div>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="container">
+        <div class="col s12">
+            <div class="card" style="margin: 0.5rem 0 1rem 0; border-radius: 2px">
+                <div class="card-content">
+                    <p>This page is a personal project to manage AWS login via DUO app. Technically it is Single factor application based authentication! Future extensions can be based on MFA</p>
+                </div>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="card" style="margin: 0.5rem 0 1rem 0; border-radius: 2px">
+                <div class="card-content">
+                    <div class="input-field outlined col s12" style="text-align: center">
+                        <!--<textarea id="textarea1" placeholder=" " rows="5" class="materialize-textarea outlined" style="min-height: 333px"></textarea>
+                        <label for="textarea1">Textarea</label>-->
+                        <a style="color: #fab007; font-weight: 500" th:href="@{/duo/init}">
+                            Sign in to the
+                            <img style="vertical-align: middle; height: 53px" th:src="@{/images/aws_img.png}"/>
+                            <span style="colr: black;">account</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <div class="footer-copyright">
+        <div style="text-align: center; color: #3573b0; padding-bottom: 13px;">
+            © 2024 01101011
+        </div>
+    </div>
+</footer>
+<script th:src="@{/js/materialize.js}"></script>
+<script th:src="@{/js/jquery-3.7.1.js}"></script>
+<!--
+<script async type="module">
+    function ab2str(buf) {
+        return String.fromCharCode.apply(null, new Uint8Array(buf));
+    }
+
+    async function exportCryptoKey(key) {
+        const exported = await window.crypto.subtle.exportKey("pkcs8", key);
+        const exportedAsString = ab2str(exported);
+        const exportedAsBase64 = window.btoa(exportedAsString);
+        const pemExported = `-----BEGIN PRIVATE KEY-----\n${exportedAsBase64}\n-----END PRIVATE KEY-----`;
+
+        //const exportKeyOutput = document.querySelector("#textarea1");
+        //exportKeyOutput.textContent = pemExported;
+        console.log(pemExported);
+        return pemExported;
+    }
+
+
+    const key = await window.crypto.subtle.generateKey({
+        name: "ECDSA",
+        namedCurve: "P-384"
+    }, true, ["sign", "verify"])
+    console.log(key.privateKey)
+    //$('#textarea1').val(key.privateKey);
+
+    const jwkPublic = await crypto.subtle.exportKey("jwk", key.publicKey);
+    console.log(jwkPublic);
+    console.log(await exportCryptoKey(key.privateKey))
+    $('#textarea1').val(await exportCryptoKey(key.privateKey))
+</script>
+-->
+</body>
+</html>
