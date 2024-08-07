@@ -3,6 +3,7 @@ package in.neuw.mfa.config;
 import in.neuw.mfa.config.props.AWSConfigProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestClient;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
@@ -42,6 +43,11 @@ public class AWSConfig {
                 .credentialsProvider(awsCredentialsProvider)
                 .build();
         return iamClient;
+    }
+
+    @Bean
+    public RestClient awsRestClient(RestClient.Builder builder) {
+        return builder.build();
     }
 
 }

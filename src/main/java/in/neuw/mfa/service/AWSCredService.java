@@ -1,5 +1,6 @@
 package in.neuw.mfa.service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import in.neuw.mfa.config.props.AWSConfigProperties;
 import in.neuw.mfa.config.props.DuoClientProperties;
 import in.neuw.mfa.models.AwsCredentialsResponse;
@@ -7,8 +8,9 @@ import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 import software.amazon.awssdk.services.iam.IamClient;
 import software.amazon.awssdk.services.iam.model.GetRoleRequest;
 import software.amazon.awssdk.services.iam.model.GetRoleResponse;
@@ -17,10 +19,7 @@ import software.amazon.awssdk.services.sts.model.AssumeRoleRequest;
 import software.amazon.awssdk.services.sts.model.AssumeRoleResponse;
 import software.amazon.awssdk.services.sts.model.Credentials;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.URI;
 import java.net.URLEncoder;
 
 @Service
@@ -43,8 +42,12 @@ public class AWSCredService {
     @Autowired
     private StsClient stsClient;
 
+    @Autowired
+    private RestClient awsRestClient;
+
     @SneakyThrows
     public String getSignInUrl(final String code) {
+        // auth code is valid, proceed further with
         if (duoMfaService.validateDuoAuthCode(code)) {
             return getSignInUrlForAssumedRole(awsConfigProperties.getAssumedRoleArn());
         }
@@ -65,16 +68,19 @@ public class AWSCredService {
                 "&SessionType=json&Session=" +
                 URLEncoder.encode(sessionJson,"UTF-8");
 
-        URL url = new URL(getSigninTokenURL);
+        ResponseEntity<ObjectNode> objectNodeResponseEntity = awsRestClient.get()
+                .uri(new URI(getSigninTokenURL))
+                // this was not needed
+                //.header(HttpHeaders.ACCEPT, APPLICATION_JSON_VALUE)
+                .retrieve().toEntity(ObjectNode.class);
 
-        // Send the request to the AWS federation endpoint to get the sign-in token
-        URLConnection conn = url.openConnection ();
+        String signinToken;
+        if (objectNodeResponseEntity.getStatusCode().is2xxSuccessful() && objectNodeResponseEntity.hasBody()) {
 
-        BufferedReader bufferReader = new BufferedReader(new
-                InputStreamReader(conn.getInputStream()));
-        String returnContent = bufferReader.readLine();
-
-        String signinToken = new JSONObject(returnContent).getString("SigninToken");
+            signinToken = objectNodeResponseEntity.getBody().get("SigninToken").asText();
+        } else {
+            throw new RuntimeException("could not resolve the signIn token");
+        }
 
         String signinTokenParameter = "&SigninToken=" + URLEncoder.encode(signinToken,"UTF-8");
 
