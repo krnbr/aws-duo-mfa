@@ -18,6 +18,7 @@
         <aws.sdk.version>2.26.28</aws.sdk.version>
     </properties>
     <dependencies>
+        <!-- Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
