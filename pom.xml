@@ -107,6 +107,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>duo-mfa</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
